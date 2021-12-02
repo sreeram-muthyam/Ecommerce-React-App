@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
 import Heading from '../reusable/heading'
 
+
+const getCaty = items => {
+    let holdItems = items.map(items => {
+        return items.node.category
+    })
+    let holdCategories = new Set(holdItems)
+    let categories = Array.from(holdCategories)
+    categories = ["all", ...categories]
+    return categories
+}
+
 export default class coursecart extends Component {
 
     constructor(props) {
@@ -8,7 +19,22 @@ export default class coursecart extends Component {
         this.state = {
             courses: props.courses.edges,
             mycourses: props.courses.edges,
+            mycategories: getCaty(props.courses.edges),
         }
+    }
+
+    catyClicked = category => {
+      let keepItsafe = [...this.state.courses]
+      if(category === "all") {
+          this.setState(() => {
+              return {mycourses: keepItsafe}
+          })
+      } else {
+          let holdme = keepItsafe.filter(({node}) => node.category === category )
+          this.setState(() => {
+            return {mycourses: holdme}
+        })
+      }
     }
 
     render() {
@@ -16,6 +42,20 @@ export default class coursecart extends Component {
             <section className="py-5">
                 <div className="container">
                     <Heading title="Courses"></Heading>
+                    <div className="row my-3">
+                        <div className="col-10 mx-auto text-center">
+                            {
+                                this.state.mycategories.map((category, index) => {
+                                    return(
+                                        <button type="button" className="btn btn-info m-3 px-3" 
+                                        key={index} onClick={() => {
+                                            this.catyClicked(category)
+                                        }}>{category}</button>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
                     <div className="row"
                     >
                         {
@@ -36,7 +76,7 @@ export default class coursecart extends Component {
                                                 className="btn btn-warning snipcart-add-item"
                                                 data-item-id={node.id}
                                                 data-item-price={node.price}
-                                                data-item-url="http://learncodeonline.in"
+                                                data-item-url="https://ecommercereactappbyram.netlify.app/"
                                                 data-item-image={node.image.file.url}
                                                 data-item-name={node.title}
                                              >
