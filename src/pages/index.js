@@ -1,31 +1,58 @@
 import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import HeroSection from "../components/reusable/herosection"
+import InfoBlock from "../components/reusable/infoblock"
+import Dualinfoblock from "../components/reusable/dualinfoblock"
+import CourseCart from "../components/Cart/coursecart"
+import BundleCart from "../components/Cart/bundlecart"
 
-const IndexPage = () => (
+const IndexPage = ({data}) => (
   <Layout>
     <Seo title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["auto", "webp", "avif"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
-      <Link to="/using-ssr">Go to "Using SSR"</Link> <br />
-      <Link to="/using-dsg">Go to "Using DSG"</Link>
-    </p>
+    <HeroSection 
+        img={data.img.childImageSharp.fluid}
+        title="I write code" 
+        subtitle="LearnCodeOnline.in" 
+        heroclass="hero-background"/>
+        <InfoBlock heading="About Us"/>
+        <CourseCart courses={data.courses}/>
+        <Dualinfoblock heading="Our Team" image="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"/>
   </Layout>
 )
+
+export const query = graphql`
+{
+  img : file(relativePath: { eq: "heromain.png"}) {
+    childImageSharp {
+      fluid {
+        ...GatsbyImageSharpFluid_tracedSVG
+      }
+    }
+  }
+
+  courses: allContentfulCourses {
+    edges {
+      node {
+        id
+        title
+        price
+        category
+        description {
+          description
+        }
+        image {
+          file{
+            url
+          }
+        }
+      }
+    }
+  }
+
+}
+`
 
 export default IndexPage
