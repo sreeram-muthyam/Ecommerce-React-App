@@ -62,8 +62,8 @@ export default class coursecart extends Component {
                             this.state.mycourses.map(({node}) => {
                                 return(
                                     // console.log(node.image.file.url)
-                                    <div key={node.id} className="col-11 col-md-6 d-flex mx-auto my-3">
-                                        <img height="120" width="200" src={node.image.file.url}></img>
+                                    <div key={node.id} className="col-11 col-md-6 d-flex mx-auto my-3 courses-card">
+                                        <div className='img-div'><img className="img-container" src={node.image.file.url}></img></div>
                                         <div className="flex-grow-1 px-3">
                                             <div className="d-flex justify-content-between">
                                                 <h6 className="mb-0">{node.title}</h6>

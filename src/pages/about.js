@@ -2,6 +2,7 @@ import * as React from "react"
 import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
+import '../components/layout.css'
 import Seo from "../components/seo"
 import HeroSection from "../components/reusable/herosection"
 import InfoBlock from "../components/reusable/infoblock"
